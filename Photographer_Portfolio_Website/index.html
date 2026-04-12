@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Lens & Light | Photographer Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #fefaf5;
+      color: #1e1e2a;
+      scroll-behavior: smooth;
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 28px;
+    }
+
+    header {
+      padding: 24px 0 16px;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #2b2d42, #8b5a2b);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      text-decoration: none;
+      font-weight: 500;
+      color: #2d2f3e;
+      transition: 0.2s;
+    }
+    .nav-links a:hover {
+      color: #b1622c;
+    }
+
+    .hero-showcase {
+      position: relative;
+      margin-top: 32px;
+      border-radius: 48px;
+      overflow: hidden;
+      box-shadow: 0 20px 35px -12px rgba(0,0,0,0.2);
+    }
+    .carousel-container {
+      position: relative;
+      width: 100%;
+      height: 480px;
+      background: #2c2c2c;
+    }
+    .carousel-slide {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 0.8s ease-in-out;
+      border-radius: 48px;
+    }
+    .carousel-slide.active {
+      opacity: 1;
+      z-index: 1;
+    }
+    .carousel-controls {
+      position: absolute;
+      bottom: 20px;
+      right: 24px;
+      z-index: 15;
+      display: flex;
+      gap: 14px;
+    }
+    .carousel-btn {
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(4px);
+      border: none;
+      color: white;
+      font-size: 1.3rem;
+      padding: 8px 16px;
+      border-radius: 40px;
+      cursor: pointer;
+      transition: 0.2s;
+      font-weight: bold;
+    }
+    .carousel-btn:hover {
+      background: #b1622c;
+      transform: scale(1.02);
+    }
+    .dots {
+      position: absolute;
+      bottom: 20px;
+      left: 24px;
+      z-index: 15;
+      display: flex;
+      gap: 12px;
+    }
+    .dot {
+      width: 10px;
+      height: 10px;
+      background: rgba(255,255,240,0.6);
+      border-radius: 50%;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .dot.active-dot {
+      background: #ffb347;
+      width: 26px;
+      border-radius: 20px;
+    }
+
+    .profile-overlay {
+      display: flex;
+      justify-content: center;
+      margin-top: -70px;
+      position: relative;
+      z-index: 20;
+      margin-bottom: 40px;
+    }
+    .profile-card {
+      background: white;
+      border-radius: 80px;
+      padding: 12px 28px 12px 18px;
+      display: inline-flex;
+      align-items: center;
+      gap: 20px;
+      box-shadow: 0 20px 30px -10px rgba(0,0,0,0.15);
+      backdrop-filter: blur(2px);
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .round-profile {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid white;
+      box-shadow: 0 8px 14px rgba(0,0,0,0.1);
+      background: #e9d6c5;
+    }
+    .profile-text {
+      text-align: left;
+    }
+    .profile-text h2 {
+      font-size: 1.7rem;
+      font-weight: 700;
+    }
+    .profile-text p {
+      color: #5a4a3a;
+      font-weight: 500;
+    }
+    .social-icons a {
+      color: #6f4e2e;
+      margin: 0 6px;
+      font-size: 1.2rem;
+      transition: 0.2s;
+    }
+    .social-icons a:hover {
+      color: #b1622c;
+    }
+
+    .gallery-section {
+      padding: 50px 0 70px;
+    }
+    .section-title {
+      text-align: center;
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 2.5rem;
+      letter-spacing: -0.3px;
+    }
+    .section-title span {
+      border-bottom: 3px solid #b1622c;
+      padding-bottom: 6px;
+    }
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+    }
+    .gallery-item {
+      overflow: hidden;
+      border-radius: 24px;
+      box-shadow: 0 12px 20px -12px rgba(0,0,0,0.2);
+      transition: all 0.3s ease;
+      background: #f3ede8;
+      cursor: pointer;
+    }
+    .gallery-item:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 30px -10px rgba(0,0,0,0.25);
+    }
+    .gallery-item img {
+      width: 100%;
+      height: 260px;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s;
+    }
+    .gallery-item:hover img {
+      transform: scale(1.03);
+    }
+    .img-caption {
+      padding: 12px;
+      font-weight: 500;
+      text-align: center;
+      background: white;
+      font-size: 0.85rem;
+      color: #3b2a1f;
+    }
+
+    .lightbox {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.9);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+    }
+    .lightbox img {
+      max-width: 85%;
+      max-height: 85%;
+      border-radius: 20px;
+      border: 3px solid white;
+    }
+    .close-light {
+      position: absolute;
+      top: 28px;
+      right: 38px;
+      font-size: 40px;
+      color: white;
+      cursor: pointer;
+    }
+
+    footer {
+      text-align: center;
+      padding: 28px;
+      background: #1e1e2a;
+      color: #ccc;
+      margin-top: 30px;
+    }
+
+    @media (max-width: 1024px) {
+      .photo-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.2rem;
+      }
+      .carousel-container {
+        height: 400px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .photo-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .carousel-container {
+        height: 320px;
+      }
+      .profile-card {
+        padding: 8px 20px;
+        border-radius: 60px;
+      }
+      .round-profile {
+        width: 70px;
+        height: 70px;
+      }
+      .profile-text h2 {
+        font-size: 1.3rem;
+      }
+      .container {
+        padding: 0 20px;
+      }
+      .carousel-controls {
+        bottom: 12px;
+        right: 12px;
+      }
+    }
+
+    @media (max-width: 550px) {
+      .photo-grid {
+        grid-template-columns: 1fr;
+        gap: 1.2rem;
+      }
+      .navbar {
+        flex-direction: column;
+      }
+      .carousel-container {
+        height: 260px;
+      }
+      .profile-card {
+        flex-direction: column;
+        text-align: center;
+        border-radius: 50px;
+        padding: 16px 24px;
+      }
+      .profile-text {
+        text-align: center;
+      }
+      .dots {
+        left: 12px;
+        bottom: 10px;
+      }
+      .carousel-btn {
+        padding: 5px 12px;
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="navbar">
+      <div class="logo">📸 LENS & LIGHT</div>
+      <ul class="nav-links">
+        <li><a href="#">Home</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    <div class="hero-showcase">
+      <div class="carousel-container" id="carouselContainer">
+        <img class="carousel-slide active" src="https://picsum.photos/id/20/1400/600" alt="Portfolio shot 1">
+        <img class="carousel-slide" src="https://picsum.photos/id/30/1400/600" alt="Portfolio shot 2">
+        <img class="carousel-slide" src="https://picsum.photos/id/15/1400/600" alt="Portfolio shot 3">
+        <img class="carousel-slide" src="https://picsum.photos/id/26/1400/600" alt="Portfolio shot 4">
+        <div class="dots" id="dotsContainer"></div>
+        <div class="carousel-controls">
+          <button class="carousel-btn" id="prevBtn"><i class="fas fa-chevron-left"></i></button>
+          <button class="carousel-btn" id="nextBtn"><i class="fas fa-chevron-right"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="profile-overlay">
+      <div class="profile-card">
+        <img class="round-profile" src="https://randomuser.me/api/portraits/women/68.jpg" alt="Photographer Profile">
+        <div class="profile-text">
+          <h2>Emma</h2>
+          <p>Fine Art & Documentary Photographer</p>
+          <div class="social-icons">
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-behance"></i></a>
+            <a href="#"><i class="fab fa-pinterest"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="gallery-section" id="gallery">
+    <div class="container">
+      <div class="section-title"><span>Moments that last</span> ✦ portfolio</div>
+      <div class="photo-grid" id="photoGrid">
+        <div class="gallery-item"><img src="https://picsum.photos/id/101/400/300" alt="urban"><div class="img-caption">Urban Stories</div></div>
+        <div class="gallery-item"><img src="https://picsum.photos/id/104/400/300" alt="nature"><div class="img-caption">Wilderness</div></div>
+        <div class="gallery-item"><img src="https://picsum.photos/id/107/400/300" alt="portrait"><div class="img-caption">Portraits</div></div>
+        <div class="gallery-item"><img src="https://picsum.photos/id/116/400/300" alt="events"><div class="img-caption">Wedding Muse</div></div>
+        <div class="gallery-item"><img src="https://picsum.photos/id/124/400/300" alt="architecture"><div class="img-caption">Architecture</div></div>
+        <div class="gallery-item"><img src="https://picsum.photos/id/21/400/300" alt="fashion"><div class="img-caption">Fashion Diary</div></div>
+        <div class="gallery-item"><img src="https://picsum.photos/id/96/400/300" alt="still life"><div class="img-caption">Still Life</div></div>
+        <div class="gallery-item"><img src="https://picsum.photos/id/42/400/300" alt="street"><div class="img-caption">Street Rhythm</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="contact" style="background: #f5efe9; padding: 40px 0;">
+    <div class="container" style="text-align: center;">
+      <h3 style="font-size: 1.6rem;">📩 Let's create together</h3>
+      <p style="margin: 15px 0;">emma@lensandlight.com | +1 (555) 678-1234</p>
+      <p style="font-size: 0.9rem;">© 2025 Lens & Light — Capturing emotions through the lens</p>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <p>Photographer Portfolio | Carousel Slideshow + Responsive Grid | Profile Overlap Design</p>
+</footer>
+
+<div id="lightbox" class="lightbox">
+  <span class="close-light">&times;</span>
+  <img id="lightboxImg" src="" alt="expanded view">
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.carousel-slide');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const dotsContainer = document.getElementById('dotsContainer');
+  let currentIndex = 0;
+  let intervalId = null;
+
+  function createDots() {
+    dotsContainer.innerHTML = '';
+    slides.forEach((_, idx) => {
+      const dot = document.createElement('div');
+      dot.classList.add('dot');
+      if (idx === currentIndex) dot.classList.add('active-dot');
+      dot.addEventListener('click', () => {
+        goToSlide(idx);
+        resetAutoSlide();
+      });
+      dotsContainer.appendChild(dot);
+    });
+  }
+
+  function updateDots() {
+    const allDots = document.querySelectorAll('.dot');
+    allDots.forEach((dot, idx) => {
+      if (idx === currentIndex) dot.classList.add('active-dot');
+      else dot.classList.remove('active-dot');
+    });
+  }
+
+  function goToSlide(index) {
+    slides.forEach((slide, i) => {
+      slide.classList.remove('active');
+      if (i === index) slide.classList.add('active');
+    });
+    currentIndex = index;
+    updateDots();
+  }
+
+  function nextSlide() {
+    let newIndex = currentIndex + 1;
+    if (newIndex >= slides.length) newIndex = 0;
+    goToSlide(newIndex);
+  }
+
+  function prevSlide() {
+    let newIndex = currentIndex - 1;
+    if (newIndex < 0) newIndex = slides.length - 1;
+    goToSlide(newIndex);
+  }
+
+  function startAutoSlide() {
+    if (intervalId) clearInterval(intervalId);
+    intervalId = setInterval(() => {
+      nextSlide();
+    }, 4500);
+  }
+
+  function resetAutoSlide() {
+    if (intervalId) clearInterval(intervalId);
+    startAutoSlide();
+  }
+
+  if (prevBtn) prevBtn.addEventListener('click', () => { prevSlide(); resetAutoSlide(); });
+  if (nextBtn) nextBtn.addEventListener('click', () => { nextSlide(); resetAutoSlide(); });
+  
+  createDots();
+  startAutoSlide();
+
+  const carouselContainer = document.getElementById('carouselContainer');
+  if (carouselContainer) {
+    carouselContainer.addEventListener('mouseenter', () => {
+      if (intervalId) clearInterval(intervalId);
+    });
+    carouselContainer.addEventListener('mouseleave', () => {
+      startAutoSlide();
+    });
+  }
+
+  const galleryItems = document.querySelectorAll('.gallery-item img');
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightboxImg');
+  const closeLight = document.querySelector('.close-light');
+
+  function openLightbox(imgSrc) {
+    lightbox.style.display = 'flex';
+    lightboxImg.src = imgSrc;
+  }
+
+  galleryItems.forEach(img => {
+    img.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openLightbox(img.src);
+    });
+  });
+
+  if (lightbox) {
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) lightbox.style.display = 'none';
+    });
+    if (closeLight) closeLight.addEventListener('click', () => {
+      lightbox.style.display = 'none';
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && lightbox.style.display === 'flex') {
+        lightbox.style.display = 'none';
+      }
+    });
+  }
+
+  const styleForSlides = document.createElement('style');
+  styleForSlides.textContent = `.carousel-slide { object-fit: cover; width:100%; height:100%; }`;
+  document.head.appendChild(styleForSlides);
+</script>
+</body>
+</html>

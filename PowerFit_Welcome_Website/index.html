@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>PowerFit | Ignite Your Strength</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #0a0c12;
+      color: #f0f3fa;
+      line-height: 1.5;
+      scroll-behavior: smooth;
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #1e1f2a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #e53e3e;
+      border-radius: 10px;
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      padding: 20px 0;
+      border-bottom: 1px solid rgba(229, 62, 62, 0.25);
+    }
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #ff4d4d, #ff9a3c);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .logo span {
+      color: #fff;
+      background: none;
+      -webkit-background-clip: unset;
+      background-clip: unset;
+      font-weight: 700;
+    }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: #e2e8f0;
+      font-weight: 500;
+      transition: 0.3s;
+      font-size: 1rem;
+    }
+    .nav-links a:hover {
+      color: #ff5e5e;
+    }
+
+    .hero {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      padding: 60px 0 40px;
+    }
+    .hero-content {
+      flex: 1;
+      min-width: 260px;
+    }
+    .hero-content h1 {
+      font-size: 3.3rem;
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 1.2rem;
+    }
+    .hero-highlight {
+      color: #ff5e5e;
+      border-bottom: 3px solid #ff5e5e;
+      display: inline-block;
+    }
+    .hero-content p {
+      font-size: 1.1rem;
+      color: #b9c3db;
+      margin-bottom: 2rem;
+      max-width: 500px;
+    }
+    .btn-primary {
+      background: #e53e3e;
+      border: none;
+      padding: 14px 32px;
+      font-size: 1rem;
+      font-weight: 700;
+      border-radius: 40px;
+      color: white;
+      cursor: pointer;
+      transition: 0.25s ease;
+      box-shadow: 0 8px 18px rgba(229, 62, 62, 0.3);
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .btn-primary:hover {
+      background: #c53030;
+      transform: translateY(-3px);
+      box-shadow: 0 15px 25px rgba(229, 62, 62, 0.4);
+    }
+    .hero-image {
+      flex: 1;
+      text-align: center;
+    }
+    .hero-image img {
+      max-width: 100%;
+      border-radius: 30px;
+      filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));
+    }
+
+    .services-section {
+      padding: 70px 0 60px;
+    }
+    .section-title {
+      text-align: center;
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin-bottom: 3rem;
+      position: relative;
+    }
+    .section-title:after {
+      content: '';
+      display: block;
+      width: 70px;
+      height: 4px;
+      background: #e53e3e;
+      margin: 12px auto 0;
+      border-radius: 4px;
+    }
+    .service-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+    .service-card {
+      background: #14161f;
+      border-radius: 28px;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      transition: all 0.3s;
+      border: 1px solid rgba(229, 62, 62, 0.2);
+      backdrop-filter: blur(2px);
+    }
+    .service-card:hover {
+      transform: translateY(-8px);
+      border-color: #e53e3e;
+      box-shadow: 0 20px 30px -12px rgba(229, 62, 62, 0.2);
+    }
+    .service-icon {
+      font-size: 3rem;
+      color: #ff6b6b;
+      margin-bottom: 1.2rem;
+    }
+    .service-card h3 {
+      font-size: 1.7rem;
+      margin-bottom: 1rem;
+    }
+    .service-card p {
+      color: #b9c3db;
+      font-size: 0.95rem;
+    }
+
+    .contact-section {
+      background: linear-gradient(145deg, #0f111a, #0a0c12);
+      padding: 60px 0;
+      border-radius: 40px 40px 0 0;
+      margin-top: 20px;
+    }
+    .contact-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 2rem;
+      background: #11131e;
+      padding: 2rem 2.5rem;
+      border-radius: 40px;
+      border: 1px solid #2a2c3a;
+    }
+    .contact-info h3 {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+    }
+    .contact-detail {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 20px;
+    }
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 1rem;
+      background: #1c1f2c;
+      padding: 10px 18px;
+      border-radius: 60px;
+      width: fit-content;
+    }
+    .contact-item i {
+      width: 28px;
+      color: #ff5e5e;
+      font-size: 1.2rem;
+    }
+    .owner-name {
+      font-size: 1.2rem;
+      font-weight: 600;
+      background: linear-gradient(135deg, #fff, #ff9f6e);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .join-badge {
+      text-align: right;
+    }
+    .join-badge p {
+      margin-bottom: 12px;
+      font-weight: 500;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(5px);
+      justify-content: center;
+      align-items: center;
+    }
+    .modal-content {
+      background: #14171f;
+      max-width: 450px;
+      width: 90%;
+      padding: 2rem 2rem 2rem;
+      border-radius: 32px;
+      text-align: center;
+      position: relative;
+      border: 1px solid #e53e3e;
+      animation: fadeSlideUp 0.3s ease;
+      box-shadow: 0 30px 40px rgba(0,0,0,0.5);
+    }
+    @keyframes fadeSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .modal-content h2 {
+      font-size: 1.9rem;
+      margin-bottom: 0.75rem;
+    }
+    .modal-content p {
+      margin: 1rem 0;
+      color: #cbd5e6;
+    }
+    .close-modal {
+      position: absolute;
+      top: 18px;
+      right: 24px;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+      color: #aaa;
+      transition: 0.2s;
+    }
+    .close-modal:hover {
+      color: #ff5e5e;
+    }
+    .modal-btn {
+      background: #e53e3e;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 40px;
+      font-weight: bold;
+      color: white;
+      margin-top: 16px;
+      cursor: pointer;
+      width: 100%;
+      font-size: 1rem;
+    }
+    .modal-small {
+      font-size: 0.8rem;
+      margin-top: 12px;
+      color: #8f9bb3;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px 20px;
+      font-size: 0.85rem;
+      border-top: 1px solid #222;
+      margin-top: 20px;
+      color: #7e8aa2;
+    }
+
+    @media (max-width: 850px) {
+      .navbar {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+      .contact-wrapper {
+        flex-direction: column;
+        text-align: center;
+      }
+      .contact-item {
+        width: 100%;
+        justify-content: center;
+      }
+      .join-badge {
+        text-align: center;
+      }
+    }
+    @media (max-width: 550px) {
+      .container {
+        padding: 0 20px;
+      }
+      .nav-links {
+        gap: 1.2rem;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <nav class="navbar">
+      <div class="logo">POWER<span>FIT</span></div>
+      <ul class="nav-links">
+        <li><a href="#">Home</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="#" id="navJoinBtn">Join Now</a></li>
+      </ul>
+    </nav>
+
+    <div class="hero">
+      <div class="hero-content">
+        <h1>Unleash Your <span class="hero-highlight">Inner Beast</span> <br> with PowerFit</h1>
+        <p>Elite coaching, smart workouts, and a community that pushes you beyond limits. Your transformation starts today.</p>
+        <button class="btn-primary" id="heroJoinBtn"><i class="fas fa-dumbbell"></i> Join Now – Get Started</button>
+      </div>
+      <div class="hero-image">
+        <img src="https://placehold.co/600x400/1e1f2a/ff5e5e?text=💪+POWERFIT+GYM&font=montserrat" alt="Gym Hero" style="border-radius: 24px;">
+      </div>
+    </div>
+  </div>
+
+  <div class="services-section" id="services">
+    <div class="container">
+      <h2 class="section-title">Elite Services</h2>
+      <div class="service-grid">
+        <div class="service-card">
+          <div class="service-icon"><i class="fas fa-heartbeat"></i></div>
+          <h3>Personal Training</h3>
+          <p>1-on-1 coaching with certified pros, tailored plans & real progress tracking.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><i class="fas fa-chalkboard-user"></i></div>
+          <h3>Group HIIT Classes</h3>
+          <p>High intensity interval training to burn fat, build endurance & have fun.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><i class="fas fa-apple-alt"></i></div>
+          <h3>Nutrition Coaching</h3>
+          <p>Custom meal plans & macro guidance to fuel performance & recovery.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="contact-section" id="contact">
+    <div class="container">
+      <div class="contact-wrapper">
+        <div class="contact-info">
+          <h3>📞 Get in touch</h3>
+          <div class="contact-detail">
+            <div class="contact-item"><i class="fas fa-user"></i> <span><strong>Owner / Trainer:</strong> <span class="owner-name">Yash Tarwadi</span></span></div>
+            <div class="contact-item"><i class="fas fa-envelope"></i> <span>📧 yash.tarwadi@powerfit.com</span></div>
+            <div class="contact-item"><i class="fas fa-phone-alt"></i> <span>📞 +91 98765XXXXX</span></div>
+            <div class="contact-item"><i class="fab fa-instagram"></i> <span>@powerfit.yash</span></div>
+          </div>
+        </div>
+        <div class="join-badge">
+          <p><i class="fas fa-fire" style="color:#ff5e5e;"></i> Ready to crush goals?</p>
+          <button class="btn-primary" id="contactJoinBtn" style="background:#2c2f3e; box-shadow:none;"><i class="fas fa-user-plus"></i> Join Now – Limited Offer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2025 PowerFit — Ignite your evolution. Designed for champions. | Yash Tarwadi</p>
+  </footer>
+
+  <div id="joinModal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <i class="fas fa-dumbbell" style="font-size: 3rem; color:#ff5e5e; margin-bottom: 10px; display: inline-block;"></i>
+      <h2>🔥 Join PowerFit Today</h2>
+      <p>Start your 7-day free trial! Exclusive access to world-class training.</p>
+      <div style="background:#1f212e; border-radius: 20px; padding: 12px; margin: 16px 0;">
+        <p style="margin:0; font-weight: 600;">✨ Limited slots for early members ✨</p>
+        <p style="font-size: 0.9rem; margin-top: 8px;">Get a personalized assessment by <strong>Yash Tarwadi</strong></p>
+      </div>
+      <button class="modal-btn" id="confirmJoinBtn">Claim my spot →</button>
+      <div class="modal-small">No commitment, cancel anytime. We'll reach you via email or phone.</div>
+    </div>
+  </div>
+
+  <script>
+    const modal = document.getElementById('joinModal');
+    const closeModalSpan = document.querySelector('.close-modal');
+    const heroJoinBtn = document.getElementById('heroJoinBtn');
+    const navJoinBtn = document.getElementById('navJoinBtn');
+    const contactJoinBtn = document.getElementById('contactJoinBtn');
+    const confirmJoinBtn = document.getElementById('confirmJoinBtn');
+
+    function openModal() {
+      modal.style.display = 'flex';
+    }
+
+    function closeModal() {
+      modal.style.display = 'none';
+    }
+
+    if (heroJoinBtn) heroJoinBtn.addEventListener('click', openModal);
+    if (navJoinBtn) navJoinBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      openModal();
+    });
+    if (contactJoinBtn) contactJoinBtn.addEventListener('click', openModal);
+
+    if (closeModalSpan) closeModalSpan.addEventListener('click', closeModal);
+
+    window.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        closeModal();
+      }
+    });
+
+    if (confirmJoinBtn) {
+      confirmJoinBtn.addEventListener('click', () => {
+        alert("🎉 Thanks for joining PowerFit! Yash Tarwadi will contact you within 24h. Get ready to transform!");
+        closeModal();
+        const fakeNotification = document.createElement('div');
+        fakeNotification.innerText = '✔️ Welcome aboard! Check your email (xxx@powerfit.com demo) for next steps.';
+        fakeNotification.style.position = 'fixed';
+        fakeNotification.style.bottom = '20px';
+        fakeNotification.style.left = '20px';
+        fakeNotification.style.backgroundColor = '#1e2a2e';
+        fakeNotification.style.color = '#b9fbc0';
+        fakeNotification.style.padding = '12px 20px';
+        fakeNotification.style.borderRadius = '40px';
+        fakeNotification.style.fontSize = '0.85rem';
+        fakeNotification.style.zIndex = '9999';
+        fakeNotification.style.borderLeft = '4px solid #ff5e5e';
+        fakeNotification.style.fontWeight = '500';
+        document.body.appendChild(fakeNotification);
+        setTimeout(() => {
+          fakeNotification.style.opacity = '0';
+          setTimeout(() => fakeNotification.remove(), 800);
+        }, 4000);
+      });
+    }
+
+    const homeLink = document.querySelector('.nav-links a[href="#"]');
+    const servicesLink = document.querySelector('.nav-links a[href="#services"]');
+    const contactLink = document.querySelector('.nav-links a[href="#contact"]');
+    
+    if (homeLink) {
+      homeLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
+    if (servicesLink) {
+      servicesLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        document.getElementById('services').scrollIntoView({ behavior: 'smooth' });
+      });
+    }
+    if (contactLink) {
+      contactLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+      });
+    }
+    
+    const footer = document.querySelector('footer p');
+    if (footer) {
+      const currentYear = new Date().getFullYear();
+      footer.innerHTML = footer.innerHTML.replace('2025', currentYear);
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.style.display === 'flex') {
+        closeModal();
+      }
+    });
+  </script>
+</body>
+</html>

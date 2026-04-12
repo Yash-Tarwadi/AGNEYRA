@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Admin Dashboard | Nexus Control</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f1f5f9;
+      color: #0f172a;
+      transition: background-color 0.3s ease, color 0.2s ease;
+    }
+
+    body.dark {
+      background: #0f172a;
+      color: #e2e8f0;
+    }
+
+    .dashboard {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      width: 280px;
+      background: #ffffff;
+      box-shadow: 2px 0 12px rgba(0, 0, 0, 0.05);
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      overflow-y: auto;
+      transition: background-color 0.3s ease, box-shadow 0.3s;
+      z-index: 100;
+    }
+
+    body.dark .sidebar {
+      background: #1e293b;
+      box-shadow: 2px 0 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .sidebar-header {
+      padding: 28px 24px;
+      border-bottom: 1px solid #e2e8f0;
+      margin-bottom: 24px;
+    }
+
+    body.dark .sidebar-header {
+      border-bottom-color: #334155;
+    }
+
+    .logo {
+      font-size: 1.6rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: -0.5px;
+    }
+
+    .nav-menu {
+      flex: 1;
+      padding: 0 16px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 20px;
+      margin: 6px 0;
+      border-radius: 14px;
+      color: #475569;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+
+    body.dark .nav-item {
+      color: #cbd5e1;
+    }
+
+    .nav-item:hover {
+      background: #f1f5f9;
+      color: #3b82f6;
+    }
+
+    body.dark .nav-item:hover {
+      background: #334155;
+      color: #60a5fa;
+    }
+
+    .nav-item.active {
+      background: #eff6ff;
+      color: #3b82f6;
+    }
+
+    body.dark .nav-item.active {
+      background: #1e3a8a;
+      color: #93c5fd;
+    }
+
+    .badge-container {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      width: 100%;
+    }
+
+    .message-badge {
+      background: #ef4444;
+      color: white;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 30px;
+      margin-left: auto;
+      min-width: 28px;
+      text-align: center;
+    }
+
+    .main-content {
+      flex: 1;
+      margin-left: 280px;
+      padding: 28px 36px;
+      transition: margin-left 0.2s;
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .page-title h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+    }
+
+    .dark-toggle {
+      background: #e2e8f0;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 40px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 600;
+      transition: 0.2s;
+      font-family: inherit;
+    }
+
+    body.dark .dark-toggle {
+      background: #334155;
+      color: #facc15;
+    }
+
+    .dark-toggle i {
+      font-size: 1.1rem;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+
+    .stat-card {
+      background: white;
+      border-radius: 24px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+      transition: background 0.2s;
+    }
+
+    body.dark .stat-card {
+      background: #1e293b;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .stat-title {
+      color: #64748b;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    body.dark .stat-title {
+      color: #94a3b8;
+    }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 800;
+      margin: 12px 0;
+    }
+
+    .recent-section {
+      background: white;
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+    }
+
+    body.dark .recent-section {
+      background: #1e293b;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .badge-notify {
+      background: #3b82f6;
+      color: white;
+      padding: 4px 12px;
+      border-radius: 40px;
+      font-size: 0.75rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 14px 8px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    body.dark th, body.dark td {
+      border-bottom-color: #334155;
+    }
+
+    th {
+      font-weight: 600;
+      color: #475569;
+    }
+
+    body.dark th {
+      color: #94a3b8;
+    }
+
+    .status {
+      padding: 4px 12px;
+      border-radius: 30px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      display: inline-block;
+    }
+
+    .status.completed {
+      background: #dcfce7;
+      color: #15803d;
+    }
+
+    body.dark .status.completed {
+      background: #14532d;
+      color: #86efac;
+    }
+
+    .status.pending {
+      background: #fff3e3;
+      color: #b45309;
+    }
+
+    body.dark .status.pending {
+      background: #451a03;
+      color: #fdba74;
+    }
+
+    @media (max-width: 900px) {
+      .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.25s ease;
+        z-index: 200;
+      }
+      .sidebar.mobile-open {
+        transform: translateX(0);
+      }
+      .main-content {
+        margin-left: 0;
+      }
+      .menu-toggle {
+        display: block;
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: #1e293b;
+      }
+      body.dark .menu-toggle {
+        color: white;
+      }
+      .top-bar {
+        flex-wrap: wrap;
+      }
+    }
+
+    @media (min-width: 901px) {
+      .menu-toggle {
+        display: none;
+      }
+    }
+
+    .menu-toggle {
+      font-size: 1.6rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    .mobile-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 150;
+    }
+
+    .mobile-overlay.active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+<div class="dashboard">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="logo">⚡ NEXUS DASH</div>
+    </div>
+    <div class="nav-menu">
+      <a href="#" class="nav-item active">
+        <i class="fas fa-tachometer-alt"></i> Dashboard
+      </a>
+      <a href="#" class="nav-item">
+        <i class="fas fa-chart-line"></i> Analytics
+      </a>
+      <a href="#" class="nav-item" id="messagesLink">
+        <div class="badge-container">
+          <i class="fas fa-envelope"></i> Messages
+          <span class="message-badge" id="messageBadge">12</span>
+        </div>
+      </a>
+      <a href="#" class="nav-item">
+        <i class="fas fa-users"></i> Customers
+      </a>
+      <a href="#" class="nav-item">
+        <i class="fas fa-shopping-cart"></i> Orders
+      </a>
+      <a href="#" class="nav-item">
+        <i class="fas fa-cog"></i> Settings
+      </a>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <div class="top-bar">
+      <button class="menu-toggle" id="menuToggleBtn"><i class="fas fa-bars"></i></button>
+      <div class="page-title">
+        <h1>Dashboard</h1>
+        <p>Welcome back, admin</p>
+      </div>
+      <button class="dark-toggle" id="darkModeToggle">
+        <i class="fas fa-moon"></i> Dark Mode
+      </button>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-title">Total Revenue</div>
+        <div class="stat-value">$48,293</div>
+        <span>↑ 12% from last month</span>
+      </div>
+      <div class="stat-card">
+        <div class="stat-title">Active Users</div>
+        <div class="stat-value">2,847</div>
+        <span>+430 new signups</span>
+      </div>
+      <div class="stat-card">
+        <div class="stat-title">Pending Orders</div>
+        <div class="stat-value">36</div>
+        <span>Needs attention</span>
+      </div>
+      <div class="stat-card">
+        <div class="stat-title">Unread Messages</div>
+        <div class="stat-value" id="unreadValue">12</div>
+        <span>New conversations</span>
+      </div>
+    </div>
+
+    <div class="recent-section">
+      <div class="section-header">
+        <h3><i class="fas fa-clock"></i> Recent Orders</h3>
+        <span class="badge-notify">Live updates</span>
+      </div>
+      <table>
+        <thead>
+          <tr><th>Order ID</th><th>Customer</th><th>Amount</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>#OR-9842</td><td>Emma Watson</td><td>$189.90</td><td><span class="status completed">Completed</span></td></tr>
+          <tr><td>#OR-9811</td><td>James Carter</td><td>$64.50</td><td><span class="status pending">Pending</span></td></tr>
+          <tr><td>#OR-9790</td><td>Sofia Lee</td><td>$243.00</td><td><span class="status completed">Completed</span></td></tr>
+          <tr><td>#OR-9772</td><td>Marcus Chen</td><td>$127.35</td><td><span class="status pending">Pending</span></td></tr>
+          <tr><td>#OR-9745</td><td>Olivia Brown</td><td>$92.99</td><td><span class="status completed">Completed</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+</div>
+<div class="mobile-overlay" id="mobileOverlay"></div>
+
+<script>
+  const darkToggleBtn = document.getElementById('darkModeToggle');
+  const body = document.body;
+
+  if (localStorage.getItem('darkMode') === 'enabled') {
+    body.classList.add('dark');
+    updateToggleButtonText(true);
+  } else {
+    body.classList.remove('dark');
+    updateToggleButtonText(false);
+  }
+
+  function updateToggleButtonText(isDark) {
+    if (darkToggleBtn) {
+      if (isDark) {
+        darkToggleBtn.innerHTML = '<i class="fas fa-sun"></i> Light Mode';
+      } else {
+        darkToggleBtn.innerHTML = '<i class="fas fa-moon"></i> Dark Mode';
+      }
+    }
+  }
+
+  darkToggleBtn.addEventListener('click', () => {
+    const isDark = body.classList.toggle('dark');
+    if (isDark) {
+      localStorage.setItem('darkMode', 'enabled');
+      updateToggleButtonText(true);
+    } else {
+      localStorage.setItem('darkMode', 'disabled');
+      updateToggleButtonText(false);
+    }
+  });
+
+  const messageBadge = document.getElementById('messageBadge');
+  const messagesLink = document.getElementById('messagesLink');
+  const unreadValueSpan = document.getElementById('unreadValue');
+  
+  let unreadCount = 12;
+  
+  function updateBadgeUI(count) {
+    if (messageBadge) messageBadge.innerText = count;
+    if (unreadValueSpan) unreadValueSpan.innerText = count;
+    if (count === 0 && messageBadge) {
+      messageBadge.style.opacity = '0.5';
+    } else {
+      if (messageBadge) messageBadge.style.opacity = '1';
+    }
+  }
+  
+  if (messagesLink) {
+    messagesLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (unreadCount > 0) {
+        unreadCount = 0;
+        updateBadgeUI(0);
+        const toastMsg = document.createElement('div');
+        toastMsg.innerText = '✨ All messages marked as read';
+        toastMsg.style.position = 'fixed';
+        toastMsg.style.bottom = '20px';
+        toastMsg.style.right = '20px';
+        toastMsg.style.backgroundColor = '#3b82f6';
+        toastMsg.style.color = 'white';
+        toastMsg.style.padding = '12px 20px';
+        toastMsg.style.borderRadius = '40px';
+        toastMsg.style.fontWeight = '500';
+        toastMsg.style.zIndex = '1000';
+        toastMsg.style.fontSize = '0.85rem';
+        document.body.appendChild(toastMsg);
+        setTimeout(() => toastMsg.remove(), 2500);
+      } else {
+        const infoMsg = document.createElement('div');
+        infoMsg.innerText = '📭 No new messages';
+        infoMsg.style.position = 'fixed';
+        infoMsg.style.bottom = '20px';
+        infoMsg.style.right = '20px';
+        infoMsg.style.backgroundColor = '#334155';
+        infoMsg.style.color = 'white';
+        infoMsg.style.padding = '10px 18px';
+        infoMsg.style.borderRadius = '30px';
+        infoMsg.style.zIndex = '1000';
+        document.body.appendChild(infoMsg);
+        setTimeout(() => infoMsg.remove(), 1500);
+      }
+    });
+  }
+
+  const menuToggleBtn = document.getElementById('menuToggleBtn');
+  const sidebar = document.getElementById('sidebar');
+  const mobileOverlay = document.getElementById('mobileOverlay');
+  
+  function closeSidebar() {
+    if (sidebar && window.innerWidth <= 900) {
+      sidebar.classList.remove('mobile-open');
+      if (mobileOverlay) mobileOverlay.classList.remove('active');
+    }
+  }
+  
+  if (menuToggleBtn) {
+    menuToggleBtn.addEventListener('click', () => {
+      sidebar.classList.toggle('mobile-open');
+      if (mobileOverlay) mobileOverlay.classList.toggle('active');
+    });
+  }
+  
+  if (mobileOverlay) {
+    mobileOverlay.addEventListener('click', closeSidebar);
+  }
+  
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 900) {
+      if (sidebar) sidebar.classList.remove('mobile-open');
+      if (mobileOverlay) mobileOverlay.classList.remove('active');
+    }
+  });
+  
+  const navItems = document.querySelectorAll('.nav-item');
+  navItems.forEach(item => {
+    item.addEventListener('click', function(e) {
+      if (!this.id && !this.querySelector('.badge-container')) {
+        navItems.forEach(nav => nav.classList.remove('active'));
+        this.classList.add('active');
+      } else if (this.id === 'messagesLink') {
+        navItems.forEach(nav => nav.classList.remove('active'));
+        this.classList.add('active');
+      } else {
+        navItems.forEach(nav => nav.classList.remove('active'));
+        this.classList.add('active');
+      }
+    });
+  });
+</script>
+</body>
+</html>
